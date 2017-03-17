@@ -1,0 +1,9 @@
+version: 2
+jobs:
+    build_test_gcc5:
+        docker:
+            - image: gcc:5
+        steps:
+            - checkout
+            - build: g++ -std=c++14 -O3 -o static_map static_map.cpp
+            - run: ./print-func-asm.sh static_map 'test_1\(\)' | ./check-optimized.sh

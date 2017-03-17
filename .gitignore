@@ -27,3 +27,7 @@
 *.exe
 *.out
 *.app
+
+static_map
+/.idea
+
