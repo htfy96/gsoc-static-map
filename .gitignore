@@ -28,6 +28,6 @@
 *.out
 *.app
 
-static_map
+/static_map
 /.idea
 /build
