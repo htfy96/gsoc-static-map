@@ -31,3 +31,4 @@
 /static_map
 /.idea
 /build
+/cmake-build-*
