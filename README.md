@@ -7,6 +7,12 @@ A compile-time map built with `constexpr` targeting C++ 14 and zero runtime over
 
 This is a implementation of [GSoC2017 project of Boost Foundation](https://svn.boost.org/trac/boost/wiki/SoC2017).
 
+## Highlights
+- O(1) lookup
+- string literals supported by `constexpr_string_view`
+- Customizable constexpr comparator and hash function
+- Modifiable
+
 ## Tested platform
 - g++5.3
 - g++6
