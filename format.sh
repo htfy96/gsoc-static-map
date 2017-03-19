@@ -1,2 +1,2 @@
 #!/bin/sh
-clang-format -i static_map.cpp
+find ./include ./test -type f -name '*.?pp' | xargs clang-format -i
