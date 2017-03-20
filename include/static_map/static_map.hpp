@@ -91,7 +91,7 @@ namespace static_map
 
         constexpr void init() {}
 
-        static constexpr std::size_t at_oor() { throw std::out_of_range("OOR"); }
+        static constexpr std::size_t at_oor() { throw std::out_of_range("OOR"); return 0; }
 
         constexpr std::size_t at_linear(size_t pos, KeyT key, size_t start_pos) const
         {
