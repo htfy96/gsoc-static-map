@@ -91,23 +91,23 @@ namespace static_map
 
         constexpr void init() {}
 
-        static constexpr const MT &at_oor() { throw std::out_of_range("OOR"); }
+        static constexpr std::size_t at_oor() { throw std::out_of_range("OOR"); }
 
-        constexpr const MT &at_linear(size_t pos, KeyT key, size_t start_pos) const
+        constexpr std::size_t at_linear(size_t pos, KeyT key, size_t start_pos) const
         {
             return pos == start_pos
                    ? at_oor()
-                   : (equal(key_buf[pos], key) ? map_buf[pos] : at_linear((pos + 1) % TableSize, key, start_pos));
+                   : (equal(key_buf[pos], key) ? pos : at_linear((pos + 1) % TableSize, key, start_pos));
         }
 
         static constexpr std::size_t static_hash(const KeyT &key) { return Hash()(key); }
 
         static constexpr bool equal(const KeyT &key1, const KeyT &key2) { return key1 == key2; }
 
-        inline constexpr const MT &at_impl(KeyT key) const
+        inline constexpr std::size_t at_impl(KeyT key) const
         {
             return equal(key_buf[static_hash(key) % TableSize], key)
-                   ? map_buf[static_hash(key) % TableSize]
+                   ? static_hash(key) % TableSize
                    : at_linear((static_hash(key) + 1) % TableSize, key, static_hash(key) % TableSize);
         }
 
@@ -121,6 +121,7 @@ namespace static_map
             init(std::forward<Us>(args)...);
         }
 
-        constexpr const MappedType &operator[](KeyT key) const { return at_impl(key); }
+        constexpr const MappedType &operator[](KeyT key) const { return map_buf[at_impl(key)]; }
+        constexpr MappedType &operator[](KeyT key) { return map_buf[at_impl(key)]; }
     };
 }
