@@ -20,4 +20,6 @@ if (static_map-build_tests)
 			${static_map_SOURCE_DIR}/check-all.sh ${static_map_BINARY_DIR}/static_map-test "test_string_view_key_constexpr\\\\(\\\\)")
 	add_test(static_map-test-string-view-key-nonconstexpr
 			${static_map_SOURCE_DIR}/check-all.sh ${static_map_BINARY_DIR}/static_map-test "test_string_view_key_nonconstexpr\\\\(\\\\)")
+    add_test(static_map-test-construct-large
+            ${static_map_SOURCE_DIR}/check-all.sh ${static_map_BINARY_DIR}/static_map-test "test_construct_large\\\\(\\\\)")
 endif()
