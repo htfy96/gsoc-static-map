@@ -12,7 +12,7 @@ constexpr static_map::StaticMap<int, const char *, 7> cmap(make_pair(2, "apple")
 
 __attribute__((noinline)) void test_int_key_constexpr()
 {
-    static_assert(cmap[5] == pear_str);
+    static_assert(cmap[5] == pear_str, "cmap[5] should be pear");
 }
 
 __attribute__((noinline)) void test_int_key_nonconstexpr()
