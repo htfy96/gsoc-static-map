@@ -29,15 +29,15 @@ namespace static_map
 
     template <typename KeyT, typename MT, unsigned SIZE, typename Equal = std::equal_to<KeyT>,
               typename Hash = constexpr_hash<KeyT>>
-    class StaticMap
+    class static_map
     {
       public:
-        using KeyType = KeyT;
-        using MappedType = MT;
+        using key_type = KeyT;
+        using mapped_type = MT;
         static constexpr std::size_t Size = SIZE;
         static constexpr std::size_t TableSize = 1.618 * Size;  // :) by instinct!
 
-        using PairT = std::pair<KeyType, MappedType>;
+        using value_type = std::pair<key_type, mapped_type>;
 
       private:
         struct Item
@@ -64,10 +64,10 @@ namespace static_map
         using TableT = Item[TableSize];
 
         KeyT key_buf[TableSize];
-        MappedType map_buf[TableSize];
+        mapped_type map_buf[TableSize];
         bool has_buf[TableSize];
 
-        constexpr void try_insert(const PairT &p, size_t pos)
+        constexpr void try_insert(const value_type &p, size_t pos)
         {
             if(has_buf[pos])
                 try_insert(p, (pos + 1) % TableSize);
@@ -82,7 +82,7 @@ namespace static_map
         }
 
         template <typename... Us>
-        constexpr void init(const PairT &p, Us &&... args)
+        constexpr void init(const value_type &p, Us &&... args)
         {
             std::size_t pos = static_hash(p.first) % TableSize;
             try_insert(p, pos);
@@ -113,7 +113,7 @@ namespace static_map
 
       public:
         template <typename... Us>
-        constexpr StaticMap(Us &&... args)
+        constexpr static_map(Us &&... args)
             : key_buf{}
             , map_buf{}
             , has_buf{}
@@ -121,7 +121,7 @@ namespace static_map
             init(std::forward<Us>(args)...);
         }
 
-        constexpr const MappedType &operator[](KeyT key) const { return map_buf[at_impl(key)]; }
-        constexpr MappedType &operator[](KeyT key) { return map_buf[at_impl(key)]; }
+        constexpr const mapped_type &operator[](KeyT key) const { return map_buf[at_impl(key)]; }
+        constexpr mapped_type &operator[](KeyT key) { return map_buf[at_impl(key)]; }
     };
 }

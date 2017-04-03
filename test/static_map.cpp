@@ -4,7 +4,7 @@
 using std::make_pair;
 
 constexpr const char *pear_str = "pear";
-constexpr static_map::StaticMap<int, const char *, 7> cmap(make_pair(2, "apple"), make_pair(10, "banana"),
+constexpr static_map::static_map<int, const char *, 7> cmap(make_pair(2, "apple"), make_pair(10, "banana"),
                                                            make_pair(5, pear_str), make_pair(6, "orange"),
                                                            make_pair(1, "watermelon"), make_pair(0, "peaches"),
                                                            make_pair(12, "strawberry"));
@@ -27,7 +27,7 @@ __attribute__((noinline)) void test_int_key_nonconstexpr()
 
 __attribute__((noinline)) void test_int_key_assignment()
 {
-    static_map::StaticMap<int, const char *, 7> cmap_mut(
+    static_map::static_map<int, const char *, 7> cmap_mut(
     make_pair(2, "apple"), make_pair(10, "banana"), make_pair(5, pear_str), make_pair(6, "orange"),
     make_pair(1, "watermelon"), make_pair(0, "peaches"), make_pair(12, "strawberry"));
     cmap_mut[12] = pear_str;
@@ -35,7 +35,7 @@ __attribute__((noinline)) void test_int_key_assignment()
         abort();
 }
 
-constexpr static_map::StaticMap<static_map::constexpr_string_view, int, 6>
+constexpr static_map::static_map<static_map::constexpr_string_view, int, 6>
 cmap_2(make_pair("apple", 2), make_pair("banana", 10), make_pair("pear", 5), make_pair("orange", 6),
        make_pair("watermelon", 1), make_pair("peaches", 0));
 __attribute__((noinline)) void test_string_view_key_constexpr()
@@ -54,7 +54,7 @@ __attribute__((noinline)) void test_string_view_key_nonconstexpr()
 
 __attribute__((noinline)) void test_construct_large()
 {
-    constexpr static_map::StaticMap<int, int, 200>
+    constexpr static_map::static_map<int, int, 200>
         cmap_large(
                 make_pair(1, 50),
                 make_pair(2, 51),
