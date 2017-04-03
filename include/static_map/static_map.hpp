@@ -1,6 +1,5 @@
 #pragma once
 #include <climits>
-#include <initializer_list>
 #include <iostream>
 #include <stdexcept>
 #include <type_traits>
@@ -38,7 +37,7 @@ namespace static_map
         static constexpr std::size_t Size = SIZE;
         static constexpr std::size_t TableSize = 1.618 * Size;  // :) by instinct!
 
-        using ValueType = std::pair<KeyType, MappedType>;
+        using PairT = std::pair<KeyType, MappedType>;
 
       private:
         struct Item
@@ -68,7 +67,7 @@ namespace static_map
         MappedType map_buf[TableSize];
         bool has_buf[TableSize];
 
-        constexpr void try_insert(const ValueType &p, size_t pos)
+        constexpr void try_insert(const PairT &p, size_t pos)
         {
             if(has_buf[pos])
                 try_insert(p, (pos + 1) % TableSize);
@@ -83,20 +82,16 @@ namespace static_map
         }
 
         template <typename... Us>
-        constexpr void init(const ValueType &p)
+        constexpr void init(const PairT &p, Us &&... args)
         {
             std::size_t pos = static_hash(p.first) % TableSize;
             try_insert(p, pos);
-            // init(std::forward<Us>(args)...);
+            init(std::forward<Us>(args)...);
         }
 
         constexpr void init() {}
 
-        static constexpr std::size_t at_oor()
-        {
-            throw std::out_of_range("OOR");
-            return 0;
-        }
+        static constexpr std::size_t at_oor() { throw std::out_of_range("OOR"); return 0; }
 
         constexpr std::size_t at_linear(size_t pos, KeyT key, size_t start_pos) const
         {
@@ -117,14 +112,13 @@ namespace static_map
         }
 
       public:
-        constexpr StaticMap(std::initializer_list<ValueType> il)
+        template <typename... Us>
+        constexpr StaticMap(Us &&... args)
             : key_buf{}
             , map_buf{}
             , has_buf{}
         {
-
-            for(const auto &v : il)
-                init(v);
+            init(std::forward<Us>(args)...);
         }
 
         constexpr const MappedType &operator[](KeyT key) const { return map_buf[at_impl(key)]; }
