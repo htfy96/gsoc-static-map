@@ -1,7 +1,7 @@
 # Static Map
 
 [![build status](https://gitlab.com/htfy96/gsoc-static-map/badges/master/build.svg)](https://gitlab.com/htfy96/gsoc-static-map/commits/master)
-[![Project Status: WIP - Initial development is in progress, but there has not yet been a stable, usable release suitable for the public.](http://www.repostatus.org/badges/latest/wip.svg)](http://www.repostatus.org/#wip)
+[![Project Status: Abandoned - Initial development has started, but there has not yet been a stable, usable release; the project has been abandoned and the author(s) do not intend on continuing development.](http://www.repostatus.org/badges/latest/abandoned.svg)](http://www.repostatus.org/#abandoned)
 
 A compile-time map built with `constexpr` targeting C++ 14 and zero runtime overhead.
 
